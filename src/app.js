@@ -43,6 +43,8 @@ app.delete("/repositories/:id", (request, response) => {
   );
   if(findRepoIndex >= 0){
     repositories.splice(findRepoIndex, 1); 
+  } else {
+    return response.status(400).json({ error: "Could not find the requested id"})
   }
 
   return response.status(204).send([])
