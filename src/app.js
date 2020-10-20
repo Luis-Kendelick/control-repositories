@@ -44,7 +44,8 @@ app.put("/repositories/:id", (request, response) => {
     id,
     title,
     url,
-    techs
+    techs,
+    likes: repositories[findRepoToUpdate].likes
   };
   if(findRepoToUpdate >= 0){
     repositories[findRepoToUpdate] = repository;
@@ -71,8 +72,18 @@ app.delete("/repositories/:id", (request, response) => {
 
 });
 
+//should be able to like a repository
 app.post("/repositories/:id/like", (request, response) => {
   // TODO
+  const { id } = request.params;
+  const findRepoToLike = repositories.findIndex( repository =>
+    repository.id === id
+  );
+
+  findRepoToLike.likes =+ 1;
+
+  return 
+
 });
 
 module.exports = app;
