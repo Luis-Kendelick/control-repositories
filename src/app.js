@@ -14,8 +14,9 @@ app.get("/repositories", (request, response) => {
   // TODO
 });
 
+//should be able to create a new repository
 app.post("/repositories", (request, response) => {
-  // TODO
+    const { title, url, techs } = request.body;
 });
 
 app.put("/repositories/:id", (request, response) => {
