@@ -10,22 +10,25 @@ app.use(express.json());
 app.use(cors());
 
 const repositories = [];
+
+//should be able to list all repositories
 app.get("/repositories", (request, response) => {
   // TODO
+  return response.json(repositories);
 });
 
 //should be able to create a new repository
 app.post("/repositories", (request, response) => {
-    const { title, url, techs } = request.body;
-    const repository = {
-      id: uuid(),
-      url,
-      likes: 0,
-      title,
-      techs,
-    }
-    repositories.push(repository);
-    return response.json(repository);
+  const { title, url, techs } = request.body;
+  const repository = {
+    id: uuid(),
+    url,
+    likes: 0,
+    title,
+    techs,
+  }
+  repositories.push(repository);
+  return response.json(repository);
 });
 
 app.put("/repositories/:id", (request, response) => {
