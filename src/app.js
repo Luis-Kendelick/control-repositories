@@ -32,6 +32,23 @@ app.post("/repositories", (request, response) => {
 
 app.put("/repositories/:id", (request, response) => {
   // TODO
+  const { id } = request.params;
+  const { title, url, techs} = request.body;
+
+  const findRepoToUpdate = repositories.findIndex( repository =>
+    repository.id === id
+  );
+
+  const repository = { 
+    id,
+    title,
+    url,
+    techs
+  };
+
+  repositories[findRepoToUpdate] = repository;
+
+  return response.status(200).json(repository);
 });
 
 //should delete the repository with the requested id
@@ -43,11 +60,11 @@ app.delete("/repositories/:id", (request, response) => {
   );
   if(findRepoIndex >= 0){
     repositories.splice(findRepoIndex, 1); 
+    return response.status(204).send([])
   } else {
     return response.status(400).json({ error: "Could not find the requested id"})
   }
 
-  return response.status(204).send([])
 });
 
 app.post("/repositories/:id/like", (request, response) => {
