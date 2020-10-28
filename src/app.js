@@ -34,7 +34,7 @@ app.post("/repositories", (request, response) => {
 app.put("/repositories/:id", (request, response) => {
   // TODO
   const { id } = request.params;
-  const { title, url, techs} = request.body;
+  const { title, url, techs } = request.body;
 
   const findRepoToUpdate = repositories.findIndex( repository =>
     repository.id === id
@@ -45,15 +45,14 @@ app.put("/repositories/:id", (request, response) => {
     title,
     url,
     techs,
-    likes: repositories[findRepoToUpdate].likes
+    likes: repositories[findRepoToUpdate].likes,
   };
-  if(findRepoToUpdate >= 0){
-    repositories[findRepoToUpdate] = repository;
-    return response.status(200).json(repository);
-  } else {
-    return response.status(400).json("This repository does not exist");
+  if(findRepoToUpdate === -1){
+    return response.status(400).json({error: "This repository does not exist"})
   }
-
+  repositories[findRepoToUpdate] = repository;
+  return response.status(200).json(repository);
+  
 });
 
 //should delete the repository with the requested id
@@ -74,15 +73,16 @@ app.delete("/repositories/:id", (request, response) => {
 
 //should be able to like a repository
 app.post("/repositories/:id/like", (request, response) => {
-  // TODO
   const { id } = request.params;
   const findRepoToLike = repositories.findIndex( repository =>
     repository.id === id
   );
-
-  findRepoToLike.likes =+ 1;
-
-  return 
+  if(findRepoToLike === -1){
+    return response.status(400).json({ error: "This repository does not exist"});
+  }
+  
+  repositories[findRepoToLike].likes+=1;
+  return response.json(repositories[findRepoToLike]);
 
 });
 
